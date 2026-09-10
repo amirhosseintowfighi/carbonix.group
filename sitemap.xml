@@ -61,16 +61,6 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://carbonix.group/fa/products/cold-brew-kettles/</loc>
-    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://carbonix.group/fa/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://carbonix.group/en/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://carbonix.group/ar/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://carbonix.group/en/products/cold-brew-kettles/"/>
-    <lastmod>2026-08-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>https://carbonix.group/fa/technology/</loc>
     <xhtml:link rel="alternate" hreflang="fa-IR" href="https://carbonix.group/fa/technology/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://carbonix.group/en/technology/"/>
@@ -391,16 +381,6 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://carbonix.group/en/products/cold-brew-kettles/</loc>
-    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://carbonix.group/fa/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://carbonix.group/en/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://carbonix.group/ar/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://carbonix.group/en/products/cold-brew-kettles/"/>
-    <lastmod>2026-08-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>https://carbonix.group/en/technology/</loc>
     <xhtml:link rel="alternate" hreflang="fa-IR" href="https://carbonix.group/fa/technology/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://carbonix.group/en/technology/"/>
@@ -716,16 +696,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://carbonix.group/en/products/warm-brew-kettles/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://carbonix.group/ar/products/warm-brew-kettles/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://carbonix.group/en/products/warm-brew-kettles/"/>
-    <lastmod>2026-08-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://carbonix.group/ar/products/cold-brew-kettles/</loc>
-    <xhtml:link rel="alternate" hreflang="fa-IR" href="https://carbonix.group/fa/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://carbonix.group/en/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://carbonix.group/ar/products/cold-brew-kettles/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://carbonix.group/en/products/cold-brew-kettles/"/>
     <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>

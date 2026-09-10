@@ -20,3 +20,9 @@
 /fa/systems                 /fa/products/                            301
 /en/systems                 /en/products/                            301
 /ar/systems                 /ar/products/                            301
+
+# Cold Brew Kettles was withdrawn from the range. The stub pages under
+# /products/cold-brew-kettles/ cover hosts that ignore this file.
+/fa/products/cold-brew-kettles   /fa/products/   301
+/en/products/cold-brew-kettles   /en/products/   301
+/ar/products/cold-brew-kettles   /ar/products/   301

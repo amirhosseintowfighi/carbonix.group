@@ -59,6 +59,9 @@ ErrorDocument 404 /404.html
   RewriteCond %{THE_REQUEST} \s/(.+/)?index\.html[\s?] [NC]
   RewriteRule ^ /%1 [R=301,L]
 
+  # Cold Brew Kettles was withdrawn from the range
+  RewriteRule ^(fa|en|ar)/products/cold-brew-kettles/?$ /$1/products/ [R=301,L]
+
   # pre-v5 URLs: four "systems" became five products
   RewriteRule ^(fa|en|ar)/systems/(portable|under-counter|multi-outlet)/?$ /$1/products/draft-bar/#$2 [R=301,L,NE]
   RewriteRule ^(fa|en|ar)/systems/custom-island/?$ /$1/products/beverage-island/ [R=301,L]

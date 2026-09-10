@@ -240,7 +240,7 @@
   }
 
   /* --------------------------------------------------------------------
-     4. Reveals, hero intro, split headings, parallax, marquee, counters
+     4. Reveals, hero intro, split headings, parallax, counters
      -------------------------------------------------------------------- */
   /* Everything already inside the first screen is revealed as soon as the
      preloader starts lifting, not when a scroll trigger fires. Without this
@@ -338,26 +338,6 @@
     });
   }
 
-  function marquee() {
-    $$('.marquee').forEach(function (m) {
-      var track = $('.marquee-track', m);
-      if (!track || track.dataset.mqBound) return;
-      track.dataset.mqBound = '1';
-      var base = track.innerHTML;
-      var need = Math.ceil((m.offsetWidth * 2) / Math.max(track.offsetWidth, 1)) + 1;
-      for (var i = 0; i < need; i++) track.innerHTML += base;
-      if (reduced || !hasGSAP()) return;
-      var half = track.scrollWidth / 2;
-      var dir = m.hasAttribute('data-reverse') ? 1 : -1;
-      if (rtl) dir *= -1;
-      var tw = W.gsap.to(track, {
-        x: dir * half, duration: Math.max(half / 60, 14), ease: 'none', repeat: -1,
-        modifiers: { x: function (x) { return (parseFloat(x) % half) + 'px'; } }
-      });
-      m.addEventListener('mouseenter', function () { tw.timeScale(.25); });
-      m.addEventListener('mouseleave', function () { tw.timeScale(1); });
-    });
-  }
 
   /* Animated counters on the highlight strip. Only touches pure numbers,
      so "CO₂ + N₂" and Persian numerals are left exactly as authored. */
@@ -1111,7 +1091,6 @@
     heroIntro();
     splitHeads();
     parallax();
-    marquee();
     counters();
     tabs();
     stackPanels();

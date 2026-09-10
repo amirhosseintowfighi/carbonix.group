@@ -768,17 +768,6 @@ body.menu-open .menu-foot { animation: menuIn .65s var(--e-out) .45s forwards; }
 .zoom-hover img { transition: transform 1.05s var(--e-out); }
 .zoom-hover:hover img, .card:hover .zoom-hover img { transform: scale(1.05); }
 
-/* ---------- 10. Marquee ---------- */
-.marquee { overflow: hidden; border-block: 1px solid var(--line); padding-block: var(--s-4); }
-.marquee-track { display: flex; width: max-content; will-change: transform; }
-.marquee span {
-  font-family: var(--ff-display); font-size: clamp(1rem, 1.9vw, 1.7rem);
-  font-weight: var(--w-strong); letter-spacing: var(--track-head);
-  color: var(--fg-mute); white-space: nowrap; transition: color var(--t-mid) var(--e-out);
-}
-.marquee span em { font-style: normal; color: var(--gold-dim); }
-.marquee:hover span { color: var(--fg-dim); }
-
 /* ---------- 11. Cards ----------
    One card, four uses. The rules that make a set of cards read as designed
    rather than assembled:
@@ -1261,8 +1250,12 @@ a.ct-row:hover { padding-inline-start: var(--s-2); }
 [dir="rtl"] .hero::before,
 [dir="rtl"] .cta-band::after { transform: scaleX(-1); }
 
-/* ---- blueprint grid ---- */
-.stackx::before,
+/* ---- blueprint grid ----
+   NOT applied to .stackx. Every panel in that section paints an opaque
+   .stackx-panel::before over its whole area so the panel underneath cannot
+   show through, which means a grid on the section behind them is covered
+   before it is ever seen — and reaching for it cost the sticky stacking
+   (see the note by .hl-strip > div). */
 .hl-strip::before {
   z-index: 0;
   background-image:
@@ -1275,8 +1268,18 @@ a.ct-row:hover { padding-inline-start: var(--s-2); }
           mask-image: radial-gradient(ellipse 76% 68% at 50% 44%, #000 28%, transparent 78%);
   opacity: .9;
 }
-.stackx, .hl-strip { position: relative; }
-.stackx > *, .hl-strip > * { position: relative; z-index: 1; }
+.hl-strip { position: relative; }
+
+/* Lift the cells above the grid layer. Scoped to `> div`, which is what the
+   cells are, and NOT written as `> *`.
+
+   The `> *` version of this rule is what broke the technology section: the
+   panels there are `position: sticky`, a blanket `position: relative` on the
+   children turned them static, and the whole front-to-back stacking — each
+   panel sliding under the next as it scales and dims — collapsed into a
+   plain scroll. Never set position on a descendant set you have not looked
+   at one by one. */
+.hl-strip > div { position: relative; z-index: 1; }
 
 /* ---- process diagram ----
    The five flow steps were five boxes in a row with a hairline between them.
@@ -1411,7 +1414,13 @@ html[lang|="ar"] .flow > li::before { content: counter(step, arabic-indic); }
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
 }
-.fab, .to-top, .lb-count {
+/* .fab is deliberately NOT in this list. It is the WhatsApp button: solid
+   gold with `color: var(--bg)`, i.e. near-black text. Swapping its
+   background for dark glass while that colour stayed put left black text on
+   a dark translucent pill — the label vanished. It is also the one control
+   on the page that has to be found instantly, which is the opposite of what
+   a frosted panel does. It keeps the solid fill. */
+.to-top, .lb-count {
   background: var(--glass-3);
   border: 1px solid var(--glass-brd-hi);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
@@ -1459,7 +1468,7 @@ html[lang|="ar"] .flow > li::before { content: counter(step, arabic-indic); }
         switched off): fall back to an opaque panel. A translucent panel
         without the blur is just unreadable text on top of a photograph. ---- */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .hdr.is-stuck, .nav-drop, .menu, .tag, .fab, .to-top, .lb-count {
+  .hdr.is-stuck, .nav-drop, .menu, .tag, .to-top, .lb-count {
     background: var(--bg-1);
   }
   .card, .acc-item, .spec-table, .flow > li { background: var(--bg-1); }

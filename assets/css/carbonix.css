@@ -29,6 +29,48 @@
   --bg-inset:      #101111;
   --bg-glass:      rgba(20,21,21,.74);
 
+  /* ---------- GLASS ----------
+     Three depths, and the depth is chosen by how far the panel floats above
+     the page, not by how important it is:
+
+       glass-1  resting on the page   cards, spec panels
+       glass-2  floating over it      header, tags, accordion heads
+       glass-3  detached from it      dropdowns, mobile menu, lightbox, FABs
+
+     Glass only earns its cost on things that OVERLAP other content. Frosting
+     a panel that sits on flat background is a blur with nothing behind it —
+     it costs a compositor layer and returns a slightly lighter rectangle.
+     Sections 11 and 18 stay flat for exactly that reason.
+
+     The border is two-tone on purpose: a bright top edge and a dim bottom
+     one. That single detail is what reads as "pane of glass catching a light
+     source" rather than "div with opacity". */
+  --glass-1:       rgba(244,241,235,.055);
+  --glass-2:       rgba(244,241,235,.085);
+  --glass-3:       rgba(22,23,23,.55);
+  --glass-brd:     rgba(244,241,235,.14);
+  --glass-brd-hi:  rgba(244,241,235,.30);
+  --glass-blur:    18px;
+  --glass-blur-lg: 28px;
+  --glass-sat:     150%;
+  --glass-shadow:  0 16px 44px -20px rgba(0,0,0,.72);
+  /* the light catching the top edge of every glass panel */
+  --glass-sheen:   linear-gradient(180deg, var(--glass-brd-hi), transparent 62%);
+
+  /* ---------- LIGHT FIELDS ----------
+     Glass is invisible without something luminous behind it. These are the
+     light sources: two warm (the brand copper) and one cool, so a panel
+     dragged across the page picks up a hue shift instead of staying grey.
+     Kept low in opacity — they should read as a lit room, not as a gradient
+     someone was proud of. */
+  --glow-warm:     rgba(206,110,54,.30);
+  --glow-gold:     rgba(230,203,177,.17);
+  --glow-cool:     rgba(64,124,140,.26);
+
+  /* The blueprint rule. Brighter than --line, which is a divider and has to
+     stay invisible; this one is meant to be seen. */
+  --vector-line:   rgba(230,203,177,.11);
+
   /* type colours */
   --fg:            #F4F1EB;
   --fg-dim:        #B0ABA2;
@@ -51,6 +93,8 @@
   --line-2:        rgba(244,241,235,.16);
   --line-3:        rgba(244,241,235,.30);
 
+  /* One soft shadow and one deep one. Glass panels carry their own
+     --glass-shadow; these are for the few opaque things left. */
   --shadow-1:      0 2px 12px rgba(0,0,0,.3);
   --shadow-2:      0 20px 52px -14px rgba(0,0,0,.66);
 
@@ -78,8 +122,12 @@
   --wrap-read:  min(720px,  calc(100vw - var(--gutter) * 2));
 
   --header-h:  76px;
-  --radius:    4px;
-  --radius-lg: 14px;
+
+  /* Three radii, no more. The old 4px was a hairline chamfer that read as an
+     accident next to a 14px card; glass in particular needs a radius big
+     enough for the blurred edge to show its curve. */
+  --radius:    10px;
+  --radius-lg: 20px;
   --radius-pill: 100px;
   --tap: 44px;
 
@@ -216,8 +264,25 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
+/* The lit room the glass sits in.
+
+   Four soft radial fields, fixed to the viewport so they stay put while the
+   page scrolls past them — a panel moving up the screen therefore travels
+   across a changing light source and shifts hue as it goes, which is the
+   whole reason the glass reads as glass.
+
+   `background-attachment: fixed` is the cheap way to pin them (no extra
+   element, no scroll listener), but iOS Safari has never handled it on a
+   scrolling body, so the mobile block below drops back to a static paint. */
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(58vw 46vw at 78% -6%,  var(--glow-warm), transparent 62%),
+    radial-gradient(46vw 42vw at 4% 22%,   var(--glow-cool), transparent 60%),
+    radial-gradient(52vw 40vw at 92% 68%,  var(--glow-gold), transparent 64%),
+    radial-gradient(64vw 48vw at 18% 104%, var(--glow-warm), transparent 60%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--fg);
   font-family: var(--ff-body);
   font-size: var(--fs-body);
@@ -227,6 +292,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* iOS Safari: a fixed-attachment background on a scrolling body either
+   judders or is dropped outright. Paint the fields once instead — they are
+   ambient, so losing the parallax costs nothing legible. */
+@supports (-webkit-touch-callout: none) {
+  body { background-attachment: scroll; }
 }
 
 img, svg, video, picture { display: block; max-width: 100%; }
@@ -1134,6 +1206,316 @@ a.ct-row:hover { padding-inline-start: var(--s-2); }
 
 /* ---------- 25. 404 ---------- */
 .nf-code { font-family: var(--ff-display); font-size: clamp(4.5rem, 17vw, 13rem); font-weight: var(--w-display); line-height: .9; letter-spacing: -.04em; display: block; }
+
+/* ==========================================================================
+   28. VECTOR ART LAYER
+   --------------------------------------------------------------------------
+   The illustrative language, kept entirely in CSS and one SVG so it applies
+   to all 120 pages without touching a single one of them.
+
+   Two motifs, and each has a job:
+
+     bubbles   the product is carbonation. Outlined circles, never filled, so
+               they can cross a photograph without hiding it.
+     grid      a 48px blueprint rule. This is a company that builds hardware;
+               the grid is the drafting table under the marketing.
+
+   Both are painted through `mask-image` rather than dropped in as a coloured
+   background. A background-image SVG is stuck with whatever colour is baked
+   into the file — `currentColor` resolves to black in that context and
+   vanishes on a dark page. Masking the brand gradient instead means one SVG
+   serves every tint, and the motif picks up the copper automatically.
+   ========================================================================== */
+
+/* The motif layers sit behind copy and in front of photography. Anything
+   using them needs a stacking context of its own — the sections below all
+   already have `position: relative`. */
+.hero::before,
+.cta-band::after,
+.stackx::before,
+.hl-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ---- carbonation field ---- */
+.hero::before,
+.cta-band::after {
+  z-index: 1;
+  background: linear-gradient(118deg, var(--copper-3), var(--gold) 52%, var(--copper-2));
+  -webkit-mask-image: url("../img/vector-bubbles.svg");
+          mask-image: url("../img/vector-bubbles.svg");
+  -webkit-mask-size: cover;   mask-size: cover;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: 50% 50%; mask-position: 50% 50%;
+}
+/* Over the hero photograph the field has to stay a suggestion — the h1 is
+   the thing that has to carry. Over the flat CTA band it can come up. */
+.hero::before    { opacity: .22; }
+.cta-band::after { opacity: .52; z-index: 0; }
+
+/* Mirrored for RTL so the composition does not read as a flipped copy of the
+   Latin one — the dense corner of the field stays on the reading-in side. */
+[dir="rtl"] .hero::before,
+[dir="rtl"] .cta-band::after { transform: scaleX(-1); }
+
+/* ---- blueprint grid ---- */
+.stackx::before,
+.hl-strip::before {
+  z-index: 0;
+  background-image:
+    linear-gradient(to right,  var(--vector-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--vector-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  /* Fade it out at the edges so it reads as a lit patch of drafting paper
+     rather than a table that got cropped. */
+  -webkit-mask-image: radial-gradient(ellipse 76% 68% at 50% 44%, #000 28%, transparent 78%);
+          mask-image: radial-gradient(ellipse 76% 68% at 50% 44%, #000 28%, transparent 78%);
+  opacity: .9;
+}
+.stackx, .hl-strip { position: relative; }
+.stackx > *, .hl-strip > * { position: relative; z-index: 1; }
+
+/* ---- process diagram ----
+   The five flow steps were five boxes in a row with a hairline between them.
+   Numbered nodes joined by a rule turn the same markup into a drawing of the
+   process, which is what the content was describing all along. */
+.flow {
+  background: transparent;
+  border-color: var(--glass-brd);
+  gap: 1px;
+}
+.flow > li {
+  position: relative;
+  background: var(--glass-1);
+  counter-increment: step;
+  padding-block-start: var(--s-7);
+}
+.flow > li:hover { background: var(--glass-2); }
+
+/* the node */
+.flow > li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  inset-block-start: var(--s-5);
+  inset-inline-start: var(--s-5);
+  width: 26px; height: 26px;
+  display: grid; place-items: center;
+  font-family: var(--ff-mono);
+  font-size: .68rem; font-weight: 600; letter-spacing: 0;
+  color: var(--gold);
+  border: 1px solid var(--glass-brd-hi);
+  border-radius: 50%;
+  background: var(--glass-3);
+  transition: border-color var(--t-mid) var(--e-out), color var(--t-mid) var(--e-out);
+}
+/* The node number follows the script. `decimal-leading-zero` renders Latin
+   digits, which is the one thing on a Persian page that would give the
+   redesign away as translated rather than typeset — the body copy already
+   uses Persian numerals throughout. The native counter styles drop the
+   leading zero, so the node is sized by its content instead. */
+html[lang|="fa"] .flow > li::before,
+html[lang|="ar"] .flow > li::before {
+  font-family: var(--ff-body);
+  min-width: 26px; width: auto; padding-inline: 5px;
+}
+html[lang|="fa"] .flow > li::before { content: counter(step, persian); }
+html[lang|="ar"] .flow > li::before { content: counter(step, arabic-indic); }
+.flow > li:hover::before { border-color: var(--gold); color: var(--gold-hi); }
+
+/* the connector — drawn from each node to the next, stopping at the last */
+.flow > li::after {
+  content: '';
+  position: absolute;
+  inset-block-start: calc(var(--s-5) + 13px);
+  inset-inline-start: calc(var(--s-5) + 26px);
+  inset-inline-end: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--glass-brd-hi), transparent);
+  pointer-events: none;
+}
+[dir="rtl"] .flow > li::after { background: linear-gradient(to left, var(--glass-brd-hi), transparent); }
+.flow > li:last-child::after { display: none; }
+/* Once the grid wraps, the connector would point at nothing. */
+@media (max-width: 1024px) { .flow > li:nth-child(2n)::after { display: none; } }
+@media (max-width: 560px)  { .flow > li::after { display: none; } }
+
+.flow .step-dot { display: none; }   /* the numbered node replaces it */
+
+/* ==========================================================================
+   29. GLASS
+   --------------------------------------------------------------------------
+   Applied only to surfaces that overlap other content — see the note on the
+   --glass-* tokens. Everything here is a re-skin of a rule defined earlier;
+   nothing new is introduced, so removing this whole section returns the site
+   to flat panels rather than breaking it.
+   ========================================================================== */
+
+/* The sheen needs a positioned ancestor. Most of these already have one and
+   MUST keep it — .hdr is fixed, .nav-drop is absolute, .card is relative —
+   so only the two that are genuinely static are touched here. Do not widen
+   this selector: blanket-setting `position: relative` on the list below drops
+   the fixed header and the absolute dropdown into normal flow. */
+.flow, .spec-table { position: relative; }
+
+.hdr.is-stuck::after, .nav-drop::after, .card::after,
+.acc-item::after, .flow::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0; inset-inline: 0;
+  height: 1px;
+  background: var(--glass-sheen);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ---- header ---- */
+.hdr.is-stuck {
+  background: var(--glass-3);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  border-bottom-color: var(--glass-brd);
+}
+
+/* ---- dropdown + mobile menu: fully detached, so the deepest blur ---- */
+.nav-drop {
+  background: var(--glass-3);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  border-color: var(--glass-brd);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ---- cards ----
+   Cards rest on the page rather than float over it, so they take the
+   lightest tint and no blur at all: 78 blurred panels on one scroll is a
+   compositor bill for an effect nobody can see behind an opaque photograph.
+   What they take from the glass system is the border and the sheen. */
+.card {
+  background: var(--glass-1);
+  border-color: var(--glass-brd);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+.card:hover {
+  background: var(--glass-2);
+  border-color: var(--glass-brd-hi);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ---- chips, floating buttons, lightbox chrome: these genuinely float ---- */
+.tag {
+  background: var(--glass-3);
+  border-color: var(--glass-brd-hi);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+}
+.fab, .to-top, .lb-count {
+  background: var(--glass-3);
+  border: 1px solid var(--glass-brd-hi);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+}
+
+/* ---- panels that sit on the page: tint and border only ---- */
+.acc-item, .spec-table {
+  background: var(--glass-1);
+  border-color: var(--glass-brd);
+}
+.acc-item:hover { background: var(--glass-2); }
+
+/* ---- mobile menu: a full-screen pane over the page it came from ----
+   The clip-path reveal is what makes this one worth blurring — the page
+   stays visible underneath through the whole wipe. */
+.menu {
+  background: var(--glass-3);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+}
+
+/* ---- outline buttons ----
+   The ghost button sat on nothing. The glass tint gives it a body, so it
+   reads as a control at rest instead of a label with a ring drawn round it.
+   The fill-up hover is untouched: ::before still slides the gold over.
+
+   Tint and border only — no blur. A page can carry twenty of these, and a
+   button in a flat section has nothing behind it worth frosting; twenty
+   compositor layers for an invisible effect is the exact trade the note at
+   the top of this section warns about. The two places a button really does
+   sit over a photograph opt in below. */
+.btn:not(.btn-solid) {
+  background: var(--glass-1);
+  border-color: var(--glass-brd-hi);
+}
+.hero .btn:not(.btn-solid),
+.card .btn:not(.btn-solid) {
+  background: var(--glass-3);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+}
+
+/* ---- no backdrop-filter (older Firefox, and anything with the feature
+        switched off): fall back to an opaque panel. A translucent panel
+        without the blur is just unreadable text on top of a photograph. ---- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hdr.is-stuck, .nav-drop, .menu, .tag, .fab, .to-top, .lb-count {
+    background: var(--bg-1);
+  }
+  .card, .acc-item, .spec-table, .flow > li { background: var(--bg-1); }
+}
+
+/* ==========================================================================
+   30. MINIMALISM PASS
+   --------------------------------------------------------------------------
+   The subtractive half of the redesign. Glass and vector art are additions;
+   without this section they would land on top of a page that already had
+   plenty going on, and the result reads as busier, not cleaner.
+
+   Everything here removes or quiets something. Nothing here adds.
+   ========================================================================== */
+
+/* Air. The single most effective minimalist move and the one most often
+   skipped, because it costs scroll length. Sections get ~20% more room and
+   the reading measure narrows, so lines break where the eye wants them to. */
+:root {
+  --sec-y:      clamp(var(--s-10), 10vw, 180px);
+  --sec-y-sm:   clamp(var(--s-9),  6.5vw, var(--s-10));
+  --wrap-read:  min(660px, calc(100vw - var(--gutter) * 2));
+}
+
+/* The film-grain overlay fought the glass: a noise texture at 9996 sits on
+   TOP of every frosted panel, so the blur it was meant to flatter came out
+   speckled. Minimalism has no use for simulated dirt either. */
+.grain { display: none; }
+
+/* One DIVIDER weight, not two. A card edge and a table rule carrying
+   different hairlines is a distinction the reader has to absorb for no
+   information.
+
+   --line-3 is deliberately left alone: it is not a divider, it is the hover
+   border on .feat and .filter-btn. Flattening it too would have made those
+   two controls stop responding visibly to the pointer, which is affordance
+   feedback rather than ornament — not something the minimalism pass gets to
+   take. Focus rings use --gold at 2px and are untouched throughout. */
+:root { --line-2: rgba(244,241,235,.13); }
+
+/* The copper gradient is now a brand accent used once per screen, not a
+   default fill. It stays on the progress bar and the primary button, and
+   comes off everything decorative. */
+.tag::before { background: var(--gold); }
+
+/* The cursor ring was a 38px circle chasing the pointer with a spring. Kept,
+   because removing an interaction people use is not a style decision, but
+   reduced to a hairline that does not compete with the glass edges. */
+.cursor-ring { width: 30px; height: 30px; border-color: rgba(244,241,235,.26); }
+.cursor-ring.is-hover { width: 44px; height: 44px; }
+.cursor-ring.is-label { width: 76px; height: 76px; background: rgba(230,203,177,.10); }
+
+/* Cards lifted 6px and grew a 52px shadow on hover — two signals for one
+   state change. The border and tint already say "this is the one you are
+   pointing at", so the lift comes down to a hint and the shadow goes. */
+.card:hover { transform: translateY(-2px); }
 
 /* ---------- 26. Motion preferences ---------- */
 @media (prefers-reduced-motion: reduce) {

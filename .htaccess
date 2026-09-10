@@ -51,10 +51,19 @@ DirectoryIndex index.html
 
 ErrorDocument 404 /404.html
 
-# _headers and _redirects are the Cloudflare Pages / Netlify half of the
-# configuration. Apache ignores them as directives but will happily serve
-# them as plain text, which publishes the CSP and the redirect map for no
-# reason. Keep them in the repo, keep them off the web.
+# Things that live in the repo but are not the website.
+#
+#   _headers / _redirects   the Cloudflare Pages / Netlify half of this same
+#                           configuration. Apache ignores them as directives
+#                           but serves them as plain text, publishing the CSP
+#                           and the whole redirect map to anyone who asks.
+#   scripts/                the build and audit tooling.
+#   */_source/              image masters and brand vectors.
+#
+# Denied rather than deleted: they belong in version control, just not on the
+# web. _headers and _redirects are matched by name here; the directories are
+# handled in the rewrite block below, which is the only place this file turns
+# the rewrite engine on.
 <FilesMatch "^(_headers|_redirects)$">
   <IfModule mod_authz_core.c>
     Require all denied
@@ -65,8 +74,13 @@ ErrorDocument 404 /404.html
   </IfModule>
 </FilesMatch>
 
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Tooling and source masters: in the repo, not on the web. First rule in the
+  # block so nothing below can rewrite its way past it.
+  RewriteRule ^(scripts|assets/img/_source|assets/brand/_source)/ - [F,L]
 
   # A directory must be requested with its trailing slash, otherwise every
   # relative path on the page resolves one level too high.

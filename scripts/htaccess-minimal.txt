@@ -1,0 +1,24 @@
+# Carbonix — minimal .htaccess
+#
+# Swap-in replacement for the real one when a host returns 403 or 500 and you
+# need to know whether the configuration is to blame. This contains only what
+# the site cannot do without: the directory index, the 404 page, and the MIME
+# types for AVIF and WOFF2 (without those the site renders with no images and
+# no fonts on older hosts).
+#
+# Nothing here can deny a request. If a 403 survives this file, the cause is
+# the account, not the site.
+#
+# To use: rename the real .htaccess to htaccess.bak, paste this in as
+# .htaccess, reload. Then put the real one back and tell me which it was.
+
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_mime.c>
+  AddType image/avif  .avif
+  AddType image/webp  .webp
+  AddType font/woff2  .woff2
+  AddType font/woff   .woff
+  AddCharset UTF-8 .html .css .js .xml .svg
+</IfModule>

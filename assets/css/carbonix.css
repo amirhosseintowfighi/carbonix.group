@@ -1476,11 +1476,17 @@ html[lang|="ar"] .flow > li::before { content: counter(step, arabic-indic); }
    ========================================================================== */
 
 /* Air. The single most effective minimalist move and the one most often
-   skipped, because it costs scroll length. Sections get ~20% more room and
-   the reading measure narrows, so lines break where the eye wants them to. */
+   skipped, because it costs scroll length.
+
+   The growth is in the viewport-relative middle of the clamp, not the floor.
+   A 180px section edge reads as confidence on a desktop; the same 180px on a
+   375px phone is two thirds of the screen's width in dead space, and the
+   reader just scrolls past emptiness looking for the next thing. So the
+   floor moves only slightly (80 → 88) and the ceiling moves a lot
+   (152 → 180). */
 :root {
-  --sec-y:      clamp(var(--s-10), 10vw, 180px);
-  --sec-y-sm:   clamp(var(--s-9),  6.5vw, var(--s-10));
+  --sec-y:      clamp(88px, 9vw, 180px);
+  --sec-y-sm:   clamp(var(--s-9), 6.5vw, var(--s-10));
   --wrap-read:  min(660px, calc(100vw - var(--gutter) * 2));
 }
 
@@ -1516,6 +1522,27 @@ html[lang|="ar"] .flow > li::before { content: counter(step, arabic-indic); }
    state change. The border and tint already say "this is the one you are
    pointing at", so the lift comes down to a hint and the shadow goes. */
 .card:hover { transform: translateY(-2px); }
+
+/* ---------- bidi: Latin identifiers inside Persian and Arabic ----------
+   Not a style change — a correctness fix the redesign surfaced. An Instagram
+   handle is written @carbonix.group, but "@" is a bidi-neutral character, so
+   in an RTL paragraph it gets reordered to the trailing edge and the handle
+   renders as "carbonix.group@". Same class of bug for an email or a phone
+   number sitting in Persian copy.
+
+   Most of these links already carry dir="ltr" in the markup; 74 across the
+   fa and ar trees do not. Doing it here fixes all of them at once and covers
+   whatever gets added next, which editing 74 tags would not.
+
+   `isolate` is the part that matters: direction alone reorders the contents,
+   isolation also stops the run from disturbing the Persian text around it. */
+[dir="rtl"] a[href^="mailto:"],
+[dir="rtl"] a[href^="tel:"],
+[dir="rtl"] a[href*="instagram.com"],
+[dir="rtl"] a[href*="wa.me"] {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
 
 /* ---------- 26. Motion preferences ---------- */
 @media (prefers-reduced-motion: reduce) {

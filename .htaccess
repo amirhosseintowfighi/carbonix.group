@@ -51,6 +51,12 @@ DirectoryIndex index.html
 
 ErrorDocument 404 /404.html
 
+# LiteSpeed's built-in default for a refused request is /403.shtml, which this
+# site does not have — so every denial logged a second "File not found
+# [403.shtml]" line underneath it and the visitor got the bare server page.
+# Point it at the same branded page as a 404.
+ErrorDocument 403 /404.html
+
 # Things that live in the repo but are not the website.
 #
 #   _headers / _redirects   the Cloudflare Pages / Netlify half of this same

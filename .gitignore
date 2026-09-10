@@ -10,3 +10,12 @@ desktop.ini
 
 # tooling that is never part of the deployed site
 node_modules/
+package.json
+package-lock.json
+
+# Deploy archives. A 25 MB zip of the site got committed once because it sat
+# in the folder at the moment of a `git add -A`; the repo already contains
+# everything the zip does. Build them outside the project folder.
+*.zip
+*.tar
+*.tar.gz

@@ -305,15 +305,40 @@
     }
   }
 
+  /* Split a heading into animatable tokens.
+
+     Consecutive Latin words are kept together as ONE token. Each token is an
+     inline-block, and bidi treats an inline-block as a neutral object rather
+     than as text — so in a Persian or Arabic heading a run of separate Latin
+     words gets placed right-to-left, and "Beverage Island" renders on screen
+     as "Island Beverage". Holding the whole run in a single dir="ltr" box
+     keeps its reading order while still giving the animation something to
+     move. */
+  var LATIN = /[A-Za-z]/;
+  function splitTokens(text) {
+    var words = text.trim().split(/\s+/), out = [];
+    words.forEach(function (w) {
+      var ltr = LATIN.test(w);
+      var prev = out[out.length - 1];
+      if (ltr && prev && prev.ltr) prev.t += ' ' + w;
+      else out.push({ t: w, ltr: ltr });
+    });
+    return out;
+  }
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   function splitHeads() {
     if (reduced || !hasST()) return;
     $$('[data-split]').forEach(function (h) {
       if (h.dataset.splitDone) return;
       var words = h.textContent.trim().split(/\s+/);
       if (words.length > 26) { h.dataset.splitDone = '1'; return; }   // don't shred long paragraphs
-      h.innerHTML = words.map(function (w) {
-        return '<span class="sw" style="display:inline-block;overflow:hidden;vertical-align:top">' +
-               '<span style="display:inline-block;will-change:transform">' + w + '</span></span>';
+      h.innerHTML = splitTokens(h.textContent).map(function (tok) {
+        return '<span class="sw" style="display:inline-block;overflow:hidden;vertical-align:top"' +
+               (tok.ltr ? ' dir="ltr"' : '') + '>' +
+               '<span style="display:inline-block;will-change:transform">' + esc(tok.t) + '</span></span>';
       }).join(' ');
       h.dataset.splitDone = '1';
       var inner = $$('.sw > span', h);

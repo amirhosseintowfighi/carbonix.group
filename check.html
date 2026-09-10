@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Carbonix — deployment check</title>
+<style>
+  :root{color-scheme:dark}
+  body{background:#141515;color:#F4F1EB;font:15px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;
+       margin:0;padding:28px 20px 64px;max-width:900px;margin-inline:auto}
+  h1{font-size:19px;letter-spacing:.16em;text-transform:uppercase;color:#E6CBB1;margin:0 0 4px}
+  h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8B857E;margin:30px 0 10px;font-weight:600}
+  p{color:#B0ABA2;margin:0 0 18px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:#E8935A;word-break:break-all}
+  table{border-collapse:collapse;width:100%;font-size:13px}
+  td,th{border-bottom:1px solid rgba(244,241,235,.1);padding:8px 6px;text-align:left;vertical-align:top}
+  th{color:#8B857E;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .ok{color:#8FBF9F}.bad{color:#E08159}.warn{color:#E6CBB1}
+  .verdict{border:1px solid rgba(244,241,235,.16);border-radius:12px;padding:16px 18px;margin:22px 0;background:#191A1A}
+  .verdict b{display:block;font-size:16px;margin-bottom:6px}
+  .swatch{display:inline-block;width:34px;height:22px;border:1px solid rgba(244,241,235,.2);vertical-align:middle;border-radius:3px}
+</style>
+</head>
+<body>
+<h1>Carbonix deployment check</h1>
+<p>Send a screenshot of this whole page. Nothing here loads from the site's
+CSS or JS, so it renders even when everything else is broken.</p>
+
+<div class="verdict" id="verdict"><b>Running…</b></div>
+
+<h2>Where this page is</h2>
+<table id="loc"></table>
+
+<h2>Assets — root-absolute paths <code>/assets/…</code></h2>
+<p style="margin:0 0 8px;font-size:13px">This is what the <b>dist</b> build uses. All of these must be OK.</p>
+<table id="abs"><tr><th>File</th><th>Status</th><th>Content-Type</th><th>Size</th></tr></table>
+
+<h2>Assets — relative paths <code>./assets/…</code></h2>
+<p style="margin:0 0 8px;font-size:13px">This is what the <b>dist-portable</b> build uses.</p>
+<table id="relt"><tr><th>File</th><th>Status</th><th>Content-Type</th><th>Size</th></tr></table>
+
+<h2>Format support in this browser</h2>
+<table id="fmt"></table>
+</body>
+<script>
+var FILES = [
+  'css/carbonix.css', 'css/fonts.css', 'css/google-fonts.css', 'js/carbonix.js',
+  'js/vendor/gsap.min.js', 'js/vendor/ScrollTrigger.min.js', 'js/vendor/lenis.min.js',
+  'fonts/IRANYekanWeb-Regular.woff2', 'fonts/IRANYekanWeb-Bold.woff2',
+  'brand/carbonix-lockup.svg',
+  'img/hero-tapwall-1240.webp', 'img/hero-tapwall-1240.avif'
+];
+
+function row(t, cells, cls) {
+  var tr = document.createElement('tr');
+  cells.forEach(function (c, i) {
+    var td = document.createElement('td');
+    if (i === 0) { td.innerHTML = '<code>' + c + '</code>'; }
+    else { td.textContent = c; if (cls) td.className = cls; }
+    tr.appendChild(td);
+  });
+  t.appendChild(tr);
+  return tr;
+}
+
+function probe(table, prefix, results) {
+  return Promise.all(FILES.map(function (f) {
+    var url = prefix + f;
+    return fetch(url, { cache: 'no-store' }).then(function (r) {
+      return r.blob().then(function (b) {
+        var ct = r.headers.get('content-type') || '(none)';
+        var okStatus = r.ok;
+        // a host that returns its 404 page with status 200 is still a failure
+        var looksHtml = /text\/html/i.test(ct) && !/\.html$/.test(f);
+        var good = okStatus && !looksHtml && b.size > 0;
+        results.push({ f: f, good: good, status: r.status, ct: ct, size: b.size });
+        row(table, [f, (good ? 'OK ' : 'FAIL ') + r.status, ct, b.size + ' B'],
+            good ? 'ok' : 'bad');
+      });
+    }).catch(function (e) {
+      results.push({ f: f, good: false, status: 0, ct: String(e), size: 0 });
+      row(table, [f, 'FAIL', String(e), '—'], 'bad');
+    });
+  }));
+}
+
+function decodes(dataUri) {
+  return new Promise(function (res) {
+    var i = new Image();
+    i.onload = function () { res(i.width > 0); };
+    i.onerror = function () { res(false); };
+    i.src = dataUri;
+  });
+}
+
+(function () {
+  var loc = document.getElementById('loc');
+  var path = location.pathname;
+  var dir = path.replace(/[^/]*$/, '');
+  row(loc, ['full URL', location.href, ''], '');
+  row(loc, ['folder', dir, ''], '');
+  row(loc, ['at domain root?', dir === '/' ? 'YES' : 'NO — the site is in a subfolder', ''],
+      dir === '/' ? 'ok' : 'warn');
+  row(loc, ['protocol', location.protocol, ''], location.protocol === 'https:' ? 'ok' : 'warn');
+
+  var A = [], R = [];
+  Promise.all([
+    probe(document.getElementById('abs'), '/assets/', A),
+    probe(document.getElementById('relt'), dir + 'assets/', R)
+  ]).then(function () {
+    var fmt = document.getElementById('fmt');
+    // Decode the site's OWN files, so this tests the server and the browser
+    // together rather than a synthetic sample.
+    var base = R[0] && R[0].good ? dir + 'assets/' : '/assets/';
+    return Promise.all([
+      decodes(base + 'img/hero-tapwall-420.webp'),
+      decodes(base + 'img/hero-tapwall-420.avif')
+    ]).then(function (r) {
+      row(fmt, ['WebP decodes', r[0] ? 'YES' : 'NO', ''], r[0] ? 'ok' : 'bad');
+      row(fmt, ['AVIF decodes', r[1] ? 'YES' : 'NO — every photo on the site will be blank', ''], r[1] ? 'ok' : 'bad');
+      var f = new FontFace('CheckYekan', 'url(' + dir + 'assets/fonts/IRANYekanWeb-Regular.woff)');
+      return f.load().then(function () {
+        row(fmt, ['IRANYekan loads', 'YES', ''], 'ok');
+      }).catch(function (e) {
+        row(fmt, ['IRANYekan loads', 'NO — ' + e.message, ''], 'bad');
+      });
+    });
+  }).then(function () {
+    var v = document.getElementById('verdict');
+    var absOk = A.every(function (x) { return x.good; });
+    var relOk = R.every(function (x) { return x.good; });
+    var msg, sub;
+    if (absOk && relOk) {
+      msg = 'Server is fine — every asset is served correctly.';
+      sub = 'If the design still looks wrong, the problem is in the uploaded HTML, not the host. Re-upload the dist folder and hard-refresh (Ctrl+Shift+R).';
+    } else if (!absOk && relOk) {
+      msg = 'The site is NOT at the domain root.';
+      sub = 'Root-absolute paths (/assets/…) fail, relative ones work. Upload the dist-portable build instead of dist — it uses relative paths.';
+    } else if (absOk && !relOk) {
+      msg = 'Root paths work, relative ones do not — unusual.';
+      sub = 'Upload the dist build (not dist-portable).';
+    } else {
+      var missing = A.filter(function (x) { return !x.good; }).map(function (x) { return x.f; });
+      msg = 'The server is not returning the asset files.';
+      sub = 'Failing: ' + missing.join(', ') + '. Most likely the upload was incomplete, or the host is serving these with the wrong Content-Type. Check the Content-Type column above.';
+    }
+    v.innerHTML = '<b>' + msg + '</b>' + sub;
+  });
+})();
+</script>
+</html>

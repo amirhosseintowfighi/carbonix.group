@@ -1,0 +1,22 @@
+# These files are deployed to a web host exactly as they sit in the tree, so
+# the line endings in the working copy matter, not just the ones in the object
+# store. Force LF everywhere instead of letting core.autocrlf rewrite them on
+# a Windows checkout.
+* text=auto eol=lf
+
+# Binaries git must never touch
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.avif  binary
+*.webp  binary
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.ico   binary
+*.pdf   binary
+
+# Vendored libraries — keep them out of diffs and language stats
+assets/js/vendor/*  linguist-vendored
+assets/css/google-fonts.css  linguist-generated

@@ -1,0 +1,206 @@
+{
+ "bar-lounge-copper": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAADQBQCdASoUABsAPs1So0ynpKMiN/qoAPAZiUAWoRf4XuwfX1xQs8eYIOo8nOw1AxECNCN0bnMQAP7ymWR6h0NS5Vly6JZ7y5jRoGGPJC2QeA5M83dJGVh/EfiKTQNkTzJxvhQlvvg8+yNI7RsNedOdCia4PgBzFsDyfh7EqXQLnrgCMo/DnwUxr31+/OVi3k5I6Hf1w7isEqjuxjAAAA==",
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "bar-lounge-copper-detail": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAABQBQCdASoUABsAPt1krU8opaSiKAqpEBuJYwCxDUwErwQz41tQdv6IGp/waze0FZRJoQAA/vaMmoKT42jvx9NESEiyTwGa/6fIwm7CXQYTN59Eu15N7+1Ntb5KIztI1bPhtH7BSy2h1B1G2RFMPvKgo5VThMWC919QECKRUWgvrqA/KFfCWiu1DEzt5E67bFq+Zj1WcE1p824lr+9szCbeuUrr4CEgAAA=",
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "cafe-night-tower": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAAAwBQCdASoUAB4APt1eqE4opSOiMBgIARAbiWUAwcwvVQM7VMpFesA5IHCq9wE7hvt9SAD1vr7DDboW+KisBlVQuulB97NCab+7vLaWqOmNkWhdLrE1+7/6ddMTWfKivRz/C9ceT3Fjg3AZMtpbKyCgankffCgXwvL0LzFr5okgB9d1AgS2v+dnEdp9n6Qd7onFQcex34+CwhmJz1bd74sEaTMCDLafN27gCByoL8AAAA==",
+  "ratio": 1.5006,
+  "sizes": [
+   420,
+   640,
+   853
+  ],
+  "w": 853
+ },
+ "cold-brew-kettles": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAAAQAwCdASoUABoAPuloq1ApJiOiqAqpIB0JZwDJEBbpsQAA/vA6PCdiBAOvO2s8sDB9z/0cAAA=",
+  "placeholder": true,
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "copper-trio-angle": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADQBACdASoUABsAPs1QokynpKMiN/qoAPAZiWcAAFu0YV/gmP81yA9uJJWP9lYyAAD+9ocgtZkKvcLLlqiVmV7zDyuo8FKYM5ZujcMnIHjc3qe0q5zzIOwbo0j7wXbvBP5/gJYGyIvnLbOD8VczQAAA",
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "copper-trio-dark": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBQCdASoUABgAPtlWpEyoJKOiN/VYAQAbCWUAxNhFYZkvRjZVTB9+VLB7Juwjf9xfAAD+93oClUm1baB79rOZo5Q5ZsF+npWPTY5kwcyKFeDMq7ghM5PSVM489HWebgD5rOwtJRN1PzyE42FjWPkwI4b6Vii0LorO6aODzOV6S5ouG8eAAA==",
+  "ratio": 1.2053,
+  "sizes": [
+   420,
+   640,
+   960,
+   1062
+  ],
+  "w": 1062
+ },
+ "copper-trio-front": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBQCdASoUABsAPt1WpE2opCMiMBgMARAbiWUAvkhX7+EWz02V/g8VPxW5R04fZHAAAP766j+76pKE4/XYcgtJVcMV6IhmiuSGwdqHohfEXTHR/A87tT7IWPTBEW8o8QfHQxnahQzptz3WFV2fsGrZbhAAAAAA",
+  "ratio": 1.3347,
+  "sizes": [
+   420,
+   640,
+   959
+  ],
+  "w": 959
+ },
+ "copper-trio-studio": {
+  "h": 1080,
+  "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAADwBACdASoUAB4APsVOnkynpCKiN+gA8BiJQBOhxAAHsmq6FCg6AsIwt4pK1AxxbaAA/vDRPW8I5kPz4LzEL9TAFcZQct/R6WmEHYVozWT9k9ztPt0BnJ7/708lEWegawwEXOd/RdG23mfuJiXCYYzgBBN2FeZGAAA=",
+  "ratio": 1.5,
+  "sizes": [
+   420,
+   640,
+   720
+  ],
+  "w": 720
+ },
+ "glass-froster": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAwAwCdASoUABoAPulqq1CpJiOiqAqpIB0JZwDNwBcTEQgAAP7wOrffbaYjy1e5e4lmVllXuZ+WtYmAAAA=",
+  "placeholder": true,
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "gym-stainless-tower": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRswAAABXRUJQVlA4IMAAAACwBQCdASoUAB4APt1cqU6opKOiMBgIARAbiWcAyNmtANt5KvpV0ieY9QzuFvFaKflQGIL757gA/u0Kz671SLk8K0HAhPxUA/TK6yzkpbPyQlCuXSylwKKbiB0wp5phc4EfXhm/s+9iAL39cQMXnoo90s46LSGU9eyY23f8NxI9e37+88tNcqEXqoPiMERMP8bo2ggeMIFXqeYPK3oaMNzkY4ODLb78PtwEFQHu37WXEuj8NTr1GnpICbKznJzAAAA=",
+  "ratio": 1.5041,
+  "sizes": [
+   420,
+   640,
+   851
+  ],
+  "w": 851
+ },
+ "hero-tapwall": {
+  "h": 1240,
+  "lqip": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAQBQCdASoUABQAPt1ep02opSOiKA1REBuJZQDGQAyCuksD57ltBIVHOo/6zYpphIgAAP7vnKzXPRR/Zhg7IeH9nFzdpg9k/lVxVVGf/nA596KZfN7d98Uvcrs8+uJ8v3hIRFBiKORRn7B/AAA=",
+  "ratio": 1.0,
+  "sizes": [
+   420,
+   640,
+   960,
+   1240
+  ],
+  "w": 1240
+ },
+ "hero-tapwall-wide": {
+  "h": 698,
+  "lqip": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoUAAsAPt1cpkyopSOiMAgBEBuJZQC7ABh53im3/ab2iAAA/u+crObmligQbVzNPEA2WLUyQXiWgIGpAvey4WQvuQsFFhp6e84/q0MRrAAAAA==",
+  "ratio": 0.5629,
+  "sizes": [
+   420,
+   640,
+   960,
+   1240
+  ],
+  "w": 1240
+ },
+ "hotel-lobby-marble": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAABQBQCdASoUABsAPt1epkyopSOiMAgBEBuJQBOnKCrMAeeNjj3u6A+WqaLgsT1ciQv59gAA+v7eitgCwTUheTr2Be8XN6PX6klqBN9LdIuCDdS6YLUc5qvDBkSG1PxfRfmQKOWtDQtz1gWsCqakRATlEqaVxpo8ozWRDM/nUQT8NF3/KwTnpItuVf6BknujQJG0MYZqwWvwEEgZc0xLYGX3DaEr8KDp9dchJ97aRgAAAA==",
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "office-pantry-tower": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRtoAAABXRUJQVlA4IM4AAADQBQCdASoUAB4APt1kpk2opaOiMBgIARAbiWMAttn/4B59cJzhcfITQlzItZzx+YMdRuEgC9DIAP7SLU5h/h8jsgvJ2mBVlVPjoCH6WvO+lKIpuoFHbrxJnn5X+ijhVu0IymJt5LTza9Anq+Qpuy3fj1ZRgXW30j1NDpixPYTPoE9JfmqF+59Y2YIz30yj0CBfMF5CXAvsfmQAM8z1WJzV4riIzdzB+ECSSI3ni6xk/53GYx2vNd9RXYMxB77qpfKKEG8Uj1tOUZXxGcAAAA==",
+  "ratio": 1.5041,
+  "sizes": [
+   420,
+   640,
+   851
+  ],
+  "w": 851
+ },
+ "warm-brew-kettles": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAAAQAwCdASoUABoAPulqqlCpJiOiqAqpIB0JZwDNhBbpsQAA/vAflk1fwogQAmqniWF+xbzYABxwAA==",
+  "placeholder": true,
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "white-twin-towers": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAAAQBQCdASoUAB4APt1cpUyopSOiMAgBEBuJYwC1G47DZC2b3PmDMlwZ6q/bOST/EJIAAP6sORzYmVu5/46d1K8zRhYWTGa1zPPbnlDSiK3SqD8uge1xx0ZbC1eLYGx0L2Nv32DCSxQpfmsrRebRdNaGeJiw7DBNtpmE7lmxdTUP+iVGj/fWBW/yCqX54nCYtiWXiSO2sRZIDX/wOvOgEaIAxuYgAAAA",
+  "ratio": 1.5006,
+  "sizes": [
+   420,
+   640,
+   853
+  ],
+  "w": 853
+ },
+ "workshop-copper-bar": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRsQAAABXRUJQVlA4ILgAAACQBQCdASoUABsAPt1apU0opSOiMBgMARAbiWQAnTNMQXmvJLCk4Xqzr6PZRXl24MdVVfPgAAD63CuTx3/rXDgqDEDbZPT0ap6fngNbcMtrGpP8L2+bNJUMBz/6Ib1ywvqGF0ZgGXeqJNsSbJR8YMlzR3GwKIGMEVf6EUIjGGQzHp6HS7dUVQqlSYV/zBKUkFP3gN/vjcvHysRDaptw+ywIvcdRdY/QViuEEoJqctoycWnYymu7dQAA",
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ },
+ "workshop-copper-bar-alt": {
+  "h": 1280,
+  "lqip": "data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABQBQCdASoUABsAPt1eqE2opSOiKA1REBuJZACdMoS1+AJ2Sie8ILBbI+JvQ15Zbgot/gAA/qZHRI0TaAY1ZQ5FKI0U0a4ID5L6OH5u9PYbZmpQDnZHW/XVgRfLlm2PCP5/Of7exgR+/QkBsFQw2l7v6YTWf0B6pPQguHPduOvBNw5aoOI2qEPVp/ic7GbiT6/Argd5Pc0wRwllXwxZzlqZd7gejn9w/LDxj0uBHfJcwAAA",
+  "ratio": 1.3333,
+  "sizes": [
+   420,
+   640,
+   960
+  ],
+  "w": 960
+ }
+}

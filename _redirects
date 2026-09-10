@@ -1,0 +1,22 @@
+# Cloudflare Pages / Netlify equivalent of the mod_rewrite block in .htaccess.
+# Only one of the two files is ever read — Apache and LiteSpeed use .htaccess
+# and ignore this, Pages and Netlify do the reverse — so both have to exist
+# and say the same thing. Trailing-slash and /index.html canonicalisation are
+# handled by those platforms natively and are not repeated here.
+
+# pre-v5 URLs: four "systems" became five products
+/fa/systems/portable        /fa/products/draft-bar/#portable         301
+/en/systems/portable        /en/products/draft-bar/#portable         301
+/ar/systems/portable        /ar/products/draft-bar/#portable         301
+/fa/systems/under-counter   /fa/products/draft-bar/#under-counter    301
+/en/systems/under-counter   /en/products/draft-bar/#under-counter    301
+/ar/systems/under-counter   /ar/products/draft-bar/#under-counter    301
+/fa/systems/multi-outlet    /fa/products/draft-bar/#multi-outlet     301
+/en/systems/multi-outlet    /en/products/draft-bar/#multi-outlet     301
+/ar/systems/multi-outlet    /ar/products/draft-bar/#multi-outlet     301
+/fa/systems/custom-island   /fa/products/beverage-island/            301
+/en/systems/custom-island   /en/products/beverage-island/            301
+/ar/systems/custom-island   /ar/products/beverage-island/            301
+/fa/systems                 /fa/products/                            301
+/en/systems                 /en/products/                            301
+/ar/systems                 /ar/products/                            301

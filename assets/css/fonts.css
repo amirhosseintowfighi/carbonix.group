@@ -1,0 +1,38 @@
+/* ==========================================================================
+   CARBONIX — typefaces
+   --------------------------------------------------------------------------
+   Persian: IRANYekanWeb, self-hosted from /assets/fonts/.
+
+   Three real weights are shipped — Regular (400), Medium (500), Bold (700) —
+   and each @font-face claims a RANGE rather than a single value, so a request
+   for 300 or 600 or 800 resolves to the nearest real file instead of being
+   faked by the browser. font-synthesis is switched off site-wide for the same
+   reason: a synthesised bold on a Persian face smears the joins.
+
+   Each face is served woff2 first with the original woff kept as a fallback
+   for anything that predates woff2 support. The woff2 copies are about 23%
+   smaller — see assets/fonts/README.md.
+
+   Latin and Arabic faces (Inter, Bricolage Grotesque, Fraunces, Cairo and
+   Vazirmatn) are self-hosted too — see google-fonts.css.
+   ========================================================================== */
+
+/* ---------- IRANYekanWeb — Persian ---------- */
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal; font-weight: 100 450; font-display: swap;
+  src: url('../fonts/IRANYekanWeb-Regular.woff2') format('woff2'),
+       url('../fonts/IRANYekanWeb-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal; font-weight: 451 620; font-display: swap;
+  src: url('../fonts/IRANYekanWeb-Medium.woff2') format('woff2'),
+       url('../fonts/IRANYekanWeb-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'IRANYekan';
+  font-style: normal; font-weight: 621 900; font-display: swap;
+  src: url('../fonts/IRANYekanWeb-Bold.woff2') format('woff2'),
+       url('../fonts/IRANYekanWeb-Bold.woff') format('woff');
+}

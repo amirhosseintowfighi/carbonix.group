@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carbonix — Build Better Beverages</title>
+<meta name="description" content="Carbonation, dual-stage cooling and draft dispense systems for cafés, restaurants, hotels and events — 1 to 6 outlets, with warranty and after-sales service.">
+<meta name="theme-color" content="#141515">
+<link rel="canonical" href="https://carbonix.group/">
+<link rel="alternate" hreflang="fa-IR" href="https://carbonix.group/fa/">
+<link rel="alternate" hreflang="en" href="https://carbonix.group/en/">
+<link rel="alternate" hreflang="ar" href="https://carbonix.group/ar/">
+<link rel="alternate" hreflang="x-default" href="https://carbonix.group/">
+<style>
+  body{background:#141515;color:#F2EFE9;font-family:system-ui,-apple-system,sans-serif;
+       display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:24px}
+  h1{font-size:1.1rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#E6CBB1;margin:0 0 6px}
+  p{color:#7C7871;font-size:.9rem;margin:0 0 26px}
+  nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  a{display:inline-block;min-width:132px;padding:14px 22px;border:1px solid rgba(242,239,233,.17);
+    border-radius:100px;color:#F2EFE9;text-decoration:none;font-size:.9rem}
+  a:hover{background:#E6CBB1;color:#141515;border-color:#E6CBB1}
+</style>
+<script>
+(function(){
+  var supported = ["fa", "en", "ar"];
+  var BASE = "./", SUFFIX = "";
+  var pick = 'en';
+  var langs = (navigator.languages || [navigator.language || 'en']);
+  for (var i=0;i<langs.length;i++){
+    var code = String(langs[i]).slice(0,2).toLowerCase();
+    if (supported.indexOf(code) > -1) { pick = code; break; }
+  }
+  location.replace(BASE + pick + '/' + SUFFIX);
+})();
+</script>
+</head>
+<body>
+<main>
+  <h1>Carbonix</h1>
+  <p>Build Better Beverages &middot; Own Your Bubbles</p>
+  <nav>
+    <a href="./fa/" hreflang="fa">فارسی</a>
+    <a href="./en/" hreflang="en">English</a>
+    <a href="./ar/" hreflang="ar">العربية</a>
+  </nav>
+</main>
+</body>
+</html>

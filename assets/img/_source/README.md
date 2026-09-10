@@ -19,3 +19,11 @@ node scripts/build-images.js
 
 PNG or JPEG, at least 1600px on the long edge. The script writes 420/640/960
 in both formats and prints the `<picture>` block to paste into the page.
+
+## lqip-manifest.json
+
+Dimensions and base64 LQIP placeholders for the images that shipped in the
+first build, from the original pipeline. Kept because most of those images
+have no master here to regenerate from — `build-images.js` prints an LQIP
+for anything it encodes itself, so this file only covers the older set.
+Moved out of `assets/img/` because nothing at runtime reads it.

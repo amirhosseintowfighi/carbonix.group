@@ -1533,25 +1533,21 @@ html[lang|="ar"] .flow > li::before { content: counter(step, arabic-indic); }
 .card:hover { transform: translateY(-2px); }
 
 /* ---------- bidi: Latin identifiers inside Persian and Arabic ----------
-   Not a style change — a correctness fix the redesign surfaced. An Instagram
-   handle is written @carbonix.group, but "@" is a bidi-neutral character, so
-   in an RTL paragraph it gets reordered to the trailing edge and the handle
-   renders as "carbonix.group@". Same class of bug for an email or a phone
-   number sitting in Persian copy.
+   An Instagram handle is written @carbonix.group, but "@" is bidi-neutral, so
+   in an RTL paragraph it reorders to the trailing edge and the handle renders
+   as "carbonix.group@". Same class of bug for an email or a phone number
+   sitting in Persian copy.
 
-   Most of these links already carry dir="ltr" in the markup; 74 across the
-   fa and ar trees do not. Doing it here fixes all of them at once and covers
-   whatever gets added next, which editing 74 tags would not.
+   There is deliberately NO rule here. The first attempt selected the links by
+   href and set direction: ltr on the element — but some of those links are
+   layout containers rather than text runs. .ct-row on the contact page is a
+   flex row holding a label and a value, and flipping its direction moved the
+   label to the wrong side of every row except the one that is not a link.
 
-   `isolate` is the part that matters: direction alone reorders the contents,
-   isolation also stops the run from disturbing the Persian text around it. */
-[dir="rtl"] a[href^="mailto:"],
-[dir="rtl"] a[href^="tel:"],
-[dir="rtl"] a[href*="instagram.com"],
-[dir="rtl"] a[href*="wa.me"] {
-  direction: ltr;
-  unicode-bidi: isolate;
-}
+   The isolation belongs on the text, so it lives in the markup instead:
+   dir="ltr" on elements whose entire content is a Latin identifier, written
+   in by scripts/fix-bidi at build time. A selector that infers an element's
+   role from its href cannot tell copy from layout. */
 
 /* ---------- 26. Motion preferences ---------- */
 @media (prefers-reduced-motion: reduce) {

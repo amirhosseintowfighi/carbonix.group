@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /check.html
+Disallow: /assets/img/_source/
 
 Sitemap: https://carbonix.group/sitemap.xml

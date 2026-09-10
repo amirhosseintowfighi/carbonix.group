@@ -33,7 +33,7 @@ catch (e) {
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, 'assets/img/_source');
 const OUT = path.join(ROOT, 'assets/img');
-const WIDTHS = [420, 640, 960];
+const WIDTHS = [420, 640, 960, 1240];
 const QUALITY = { avif: 52, webp: 78 };
 
 if (!fs.existsSync(SRC)) {
@@ -42,7 +42,10 @@ if (!fs.existsSync(SRC)) {
   process.exit(0);
 }
 
-const sources = fs.readdirSync(SRC).filter(f => /\.(png|jpe?g|webp|tiff?)$/i.test(f));
+// A leading underscore parks a render without deleting it — alternates and
+// rejected takes stay next to the one in use instead of going missing.
+const sources = fs.readdirSync(SRC)
+  .filter(f => /\.(png|jpe?g|webp|tiff?)$/i.test(f) && !f.startsWith('_'));
 if (!sources.length) {
   console.log('No images in assets/img/_source/. Nothing to do.');
   process.exit(0);
